@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES Encryption Demonstration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(226, 232, 240, 0.1);
+        }
+
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 15px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            transition: all 0.2s ease;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea::placeholder,
+        input[type="text"]::placeholder {
+            color: #475569;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        button {
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #334155;
+        }
+
+        .btn-ghost:hover {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .info-panel {
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .info-panel-title {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .info-panel-text {
+            color: #cbd5e1;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .key-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .concept-card {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .concept-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .concept-title {
+            font-weight: 700;
+            font-size: 0.9375rem;
+            color: #3b82f6;
+            margin-bottom: 8px;
+        }
+
+        .concept-text {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .visualization {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 40px;
+            min-height: 300px;
+            border: 1px solid rgba(226, 232, 240, 0.1);
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 20px;
+            margin: 25px 0;
+            opacity: 0;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .step-content {
+            padding-top: 4px;
+        }
+
+        .step-label {
+            font-size: 0.8125rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step-value {
+            background: #0f172a;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            color: #cbd5e1;
+            word-break: break-all;
+            border: 1px solid #334155;
+            line-height: 1.6;
+        }
+
+        .step-description {
+            color: #94a3b8;
+            font-size: 0.9375rem;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .arrow-connector {
+            text-align: center;
+            margin: 15px 0;
+            color: #3b82f6;
+            font-size: 24px;
+        }
+
+        .output-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(226, 232, 240, 0.1);
+            margin-top: 30px;
+        }
+
+        .output-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .output-content {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 15px;
+            color: #3b82f6;
+            word-break: break-all;
+            min-height: 100px;
+            border: 1px solid #334155;
+            line-height: 1.8;
+        }
+
+        .success-message {
+            color: #10b981;
+        }
+
+        .error-message {
+            color: #ef4444;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .error-step {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .error-step .step-label {
+            color: #ef4444;
+        }
+
+        .aes-rounds {
+            margin-bottom: 8px;
+        }
+
+        .round-item {
+            padding: 8px 0;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .round-item strong {
+            color: #e2e8f0;
+        }
+
+        .aes-visual-demo {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .state-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 300px;
+            margin: 15px auto;
+        }
+
+        .state-block {
+            aspect-ratio: 1;
+            background: #1e3a8a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            color: #60a5fa;
+            font-weight: 600;
+            animation: blockPulse 2s ease-in-out infinite;
+        }
+
+        .state-block:nth-child(4n+1) { animation-delay: 0s; }
+        .state-block:nth-child(4n+2) { animation-delay: 0.1s; }
+        .state-block:nth-child(4n+3) { animation-delay: 0.2s; }
+        .state-block:nth-child(4n+4) { animation-delay: 0.3s; }
+
+        @keyframes blockPulse {
+            0%, 100% { 
+                background: #1e3a8a;
+                transform: scale(1);
+            }
+            50% { 
+                background: #3b82f6;
+                transform: scale(1.05);
+            }
+        }
+
+        .operation-label {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .transformation-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .mini-state {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+            width: 80px;
+            height: 80px;
+            padding: 8px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 6px;
+            border: 1px solid #334155;
+        }
+
+        .mini-block {
+            background: #3b82f6;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-arrow {
+            color: #3b82f6;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .flow-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AES Encryption Demonstration</h1>
+            <p class="subtitle">Interactive Symmetric Encryption Visualization</p>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-panel-title">Advanced Encryption Standard (AES-256)</div>
+            <div class="info-panel-text">
+                AES uses symmetric key cryptography to transform plaintext into ciphertext through 14 rounds of mathematical operations. Your password is expanded into 15 unique round keys, with each round using a different key for maximum security. The same secret key encrypts and decrypts the data.
+            </div>
+        </div>
+
+        <div class="key-concepts">
+            <div class="concept-card">
+                <div class="concept-icon">🔑</div>
+                <div class="concept-title">Key Sizes</div>
+                <div class="concept-text">AES-128 (10 rounds), AES-192 (12 rounds), AES-256 (14 rounds). More bits = more security.</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">🔢</div>
+                <div class="concept-title">Data Block</div>
+                <div class="concept-text">Your message is split into 16-byte blocks, arranged in a 4×4 matrix. Each character = 1 byte.</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">🔄</div>
+                <div class="concept-title">Round Keys</div>
+                <div class="concept-text">Your key expands into 15 round keys. Each encryption round uses a different key for layered security.</div>
+            </div>
+            <div class="concept-card">
+                <div class="concept-icon">⚡</div>
+                <div class="concept-title">Operations</div>
+                <div class="concept-text">SubBytes (confusion), ShiftRows + MixColumns (diffusion), AddRoundKey (key mixing).</div>
+            </div>
+        </div>
+
+        <div class="concept-cards">
+            <div class="concept-card">
+                <div class="concept-icon">🔑</div>
+                <div class="concept-title">Key Derivation</div>
+                <div class="concept-text">Your password → PBKDF2 → 256-bit key → 15 round keys (Key 0-14)</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-icon">🔢</div>
+                <div class="concept-title">Data Structure</div>
+                <div class="concept-text">Messages → Bytes → 4×4 matrix (16 bytes). Each character = 1 byte</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-icon">🔄</div>
+                <div class="concept-title">14 Rounds</div>
+                <div class="concept-text">Each round: SubBytes → ShiftRows → MixColumns → AddRoundKey</div>
+            </div>
+
+            <div class="concept-card">
+                <div class="concept-icon">↩️</div>
+                <div class="concept-title">Decryption</div>
+                <div class="concept-text">Same key, reverse operations: InvSubBytes → InvShiftRows → InvMixColumns</div>
+            </div>
+        </div>
+
+        <details class="info-dropdown">
+            <summary class="info-dropdown-header">
+                <span>📚 How AES Works - Detailed Explanation</span>
+                <span class="dropdown-arrow">▼</span>
+            </summary>
+            <div class="info-dropdown-content">
+                <div class="detail-section">
+                    <h3>🔐 The 4×4 State Matrix</h3>
+                    <p>AES processes data in 128-bit blocks (16 bytes) arranged in a 4×4 grid. Each cell contains one byte.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> "Hello World" + padding<br>
+                        <code>H(72) e(101) l(108) l(108) → arranged column-by-column into matrix</code>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔑 Secret Key → Round Keys</h3>
+                    <p>Your password goes through key derivation (PBKDF2) to become a 256-bit key, which then expands into 15 round keys:</p>
+                    <ul>
+                        <li><strong>Round Key 0:</strong> Used before Round 1 (initial whitening)</li>
+                        <li><strong>Round Keys 1-14:</strong> One unique key for each round</li>
+                        <li><strong>Why 15?</strong> Each layer adds independent security - like 15 locks instead of 1</li>
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h3>⚙️ The Four Operations</h3>
+                    <div class="operations-grid">
+                        <div class="operation-detail">
+                            <strong>1. SubBytes</strong>
+                            <p>Replace each byte using S-box lookup table. Creates confusion - breaks plaintext/ciphertext relationship.</p>
+                        </div>
+                        <div class="operation-detail">
+                            <strong>2. ShiftRows</strong>
+                            <p>Shift each row left by 0,1,2,3 positions. Creates diffusion - spreads data throughout the matrix.</p>
+                        </div>
+                        <div class="operation-detail">
+                            <strong>3. MixColumns</strong>
+                            <p>Matrix multiplication within columns. More diffusion - each byte influences all others in its column.</p>
+                        </div>
+                        <div class="operation-detail">
+                            <strong>4. AddRoundKey</strong>
+                            <p>XOR state with round key. Incorporates your secret - without the key, decryption is impossible.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔄 Why 14 Rounds?</h3>
+                    <p>More rounds = more security. AES-256 uses 14 rounds (AES-128 uses 10, AES-192 uses 12).</p>
+                    <div class="security-comparison">
+                        <div><strong>AES-256 Keys:</strong> 2<sup>256</sup> possibilities</div>
+                        <div><strong>Time to break:</strong> Longer than the age of the universe</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>↩️ How Decryption Works</h3>
+                    <p>Decryption uses the <strong>same key</strong> but applies inverse operations in reverse order:</p>
+                    <ul>
+                        <li>Round keys applied in reverse (14 → 0)</li>
+                        <li>InvSubBytes, InvShiftRows, InvMixColumns - mathematical inverses</li>
+                        <li>AddRoundKey is its own inverse (XOR property: A⊕B⊕B = A)</li>
+                    </ul>
+                    <div class="example-box">
+                        <strong>Without the correct key:</strong> Wrong round keys → garbage output
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <div class="main-content">
+            <div class="card">
+                <div class="card-title">Message Input</div>
+                <textarea id="plaintext" placeholder="Enter your message to encrypt...">Hello World</textarea>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Encryption Key</div>
+                <input type="text" id="key" placeholder="Enter secret key..." value="MySecretKey123">
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="encryptMessage()">Encrypt Message</button>
+            <button class="btn-secondary" onclick="decryptMessage()">Decrypt Message</button>
+            <button class="btn-ghost" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div id="visualization" class="visualization">
+            <div class="empty-state">
+                <div class="empty-state-icon">🔐</div>
+                <p>Click "Encrypt Message" to see the encryption process</p>
+            </div>
+        </div>
+
+        <div class="output-card">
+            <div class="output-label">Output</div>
+            <div id="output" class="output-content">Awaiting encryption or decryption...</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        let currentEncrypted = '';
+
+        function encryptMessage() {
+            const plaintext = document.getElementById('plaintext').value;
+            const key = document.getElementById('key').value;
+            const visualization = document.getElementById('visualization');
+            const output = document.getElementById('output');
+
+            if (!plaintext || !key) {
+                alert('Please enter both a message and an encryption key');
+                return;
+            }
+
+            visualization.innerHTML = '<div class="loading"><div class="spinner"></div> Encrypting message...</div>';
+            output.innerHTML = '<div class="loading"><div class="spinner"></div> Processing...</div>';
+
+            setTimeout(() => {
+                const encrypted = CryptoJS.AES.encrypt(plaintext, key).toString();
+                currentEncrypted = encrypted;
+
+                visualization.innerHTML = `
+                    <div class="process-step" style="animation-delay: 0s;">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-label">Plaintext Input</div>
+                            <div class="step-value">${plaintext}</div>
+                            <div class="step-description">Each character becomes 1 byte (e.g., 'H' = 72, 'e' = 101). Message is split into 16-byte blocks.</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow-connector">↓</div>
+
+                    <div class="process-step" style="animation-delay: 0.2s;">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-label">Secret Key → Round Keys (Key Expansion)</div>
+                            <div class="step-value">${key}</div>
+                            <div class="step-description">Your password is expanded into 15 unique round keys (Round Key 0-14). Each encryption round uses a different key.</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow-connector">↓</div>
+
+                    <div class="process-step" style="animation-delay: 0.3s;">
+                        <div class="step-number">0</div>
+                        <div class="step-content">
+                            <div class="step-label">Initial Round (Whitening)</div>
+                            <div class="step-value">
+                                <strong>AddRoundKey (Round Key 0)</strong><br>
+                                XOR the plaintext with the first round key
+                            </div>
+                            <div class="step-description">XOR operation: Each byte ⊕ corresponding key byte. XOR is reversible: A ⊕ B ⊕ B = A</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow-connector">↓</div>
+
+                    <div class="process-step" style="animation-delay: 0.4s;">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-label">Main Rounds 1-14 (AES Transformation)</div>
+                            <div class="step-value">
+                                <div class="aes-visual-demo">
+                                    <div class="operation-label">4×4 State Matrix (16 bytes arranged in columns)</div>
+                                    <div class="state-grid">
+                                        <div class="state-block">A7</div>
+                                        <div class="state-block">3C</div>
+                                        <div class="state-block">B2</div>
+                                        <div class="state-block">8F</div>
+                                        <div class="state-block">E1</div>
+                                        <div class="state-block">5D</div>
+                                        <div class="state-block">94</div>
+                                        <div class="state-block">2B</div>
+                                        <div class="state-block">6C</div>
+                                        <div class="state-block">F8</div>
+                                        <div class="state-block">41</div>
+                                        <div class="state-block">D9</div>
+                                        <div class="state-block">0E</div>
+                                        <div class="state-block">73</div>
+                                        <div class="state-block">A6</div>
+                                        <div class="state-block">52</div>
+                                    </div>
+                                    <div class="operation-label">↓ Transformed through each operation ↓</div>
+                                </div>
+                                
+                                <div class="transformation-flow">
+                                    <div>
+                                        <div class="mini-state">
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                        </div>
+                                        <div class="flow-label"><strong>SubBytes</strong><br><span style="font-size: 0.7rem;">Confusion</span></div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div>
+                                        <div class="mini-state">
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #8b5cf6;"></div>
+                                            <div class="mini-block" style="background: #ec4899;"></div>
+                                            <div class="mini-block" style="background: #f59e0b;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #8b5cf6;"></div>
+                                            <div class="mini-block" style="background: #ec4899;"></div>
+                                            <div class="mini-block" style="background: #f59e0b;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #8b5cf6;"></div>
+                                            <div class="mini-block" style="background: #ec4899;"></div>
+                                            <div class="mini-block" style="background: #f59e0b;"></div>
+                                            <div class="mini-block" style="background: #3b82f6;"></div>
+                                            <div class="mini-block" style="background: #8b5cf6;"></div>
+                                            <div class="mini-block" style="background: #ec4899;"></div>
+                                            <div class="mini-block" style="background: #f59e0b;"></div>
+                                        </div>
+                                        <div class="flow-label"><strong>ShiftRows</strong><br><span style="font-size: 0.7rem;">Diffusion</span></div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div>
+                                        <div class="mini-state">
+                                            <div class="mini-block" style="background: #a78bfa;"></div>
+                                            <div class="mini-block" style="background: #f472b6;"></div>
+                                            <div class="mini-block" style="background: #fbbf24;"></div>
+                                            <div class="mini-block" style="background: #60a5fa;"></div>
+                                            <div class="mini-block" style="background: #c084fc;"></div>
+                                            <div class="mini-block" style="background: #fb7185;"></div>
+                                            <div class="mini-block" style="background: #fcd34d;"></div>
+                                            <div class="mini-block" style="background: #93c5fd;"></div>
+                                            <div class="mini-block" style="background: #d8b4fe;"></div>
+                                            <div class="mini-block" style="background: #fda4af;"></div>
+                                            <div class="mini-block" style="background: #fde68a;"></div>
+                                            <div class="mini-block" style="background: #bfdbfe;"></div>
+                                            <div class="mini-block" style="background: #e9d5ff;"></div>
+                                            <div class="mini-block" style="background: #fecdd3;"></div>
+                                            <div class="mini-block" style="background: #fef3c7;"></div>
+                                            <div class="mini-block" style="background: #dbeafe;"></div>
+                                        </div>
+                                        <div class="flow-label"><strong>MixColumns</strong><br><span style="font-size: 0.7rem;">Diffusion</span></div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div>
+                                        <div class="mini-state">
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                            <div class="mini-block" style="background: #10b981;"></div>
+                                        </div>
+                                        <div class="flow-label"><strong>AddRoundKey</strong><br><span style="font-size: 0.7rem;">Key Mix</span></div>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 20px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                                    <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.6;">
+                                        <strong style="color: #3b82f6;">SubBytes:</strong> Replace each byte using S-box lookup table (confusion)<br>
+                                        <strong style="color: #3b82f6;">ShiftRows:</strong> Cyclically shift rows (0, 1, 2, 3 positions)<br>
+                                        <strong style="color: #3b82f6;">MixColumns:</strong> Matrix multiplication to mix column data<br>
+                                        <strong style="color: #3b82f6;">AddRoundKey:</strong> XOR with unique round key
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155; font-size: 0.875rem;">
+                                    <div class="round-item"><strong>Rounds 1-13:</strong> All four operations applied sequentially</div>
+                                    <div class="round-item"><strong>Round 14 (Final):</strong> SubBytes → ShiftRows → AddRoundKey (no MixColumns)</div>
+                                </div>
+                            </div>
+                            <div class="step-description">14 rounds total. Each round completely transforms the data using a different round key.</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow-connector">↓</div>
+
+                    <div class="process-step" style="animation-delay: 0.6s;">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-label">Encrypted Ciphertext</div>
+                            <div class="step-value">${encrypted}</div>
+                            <div class="step-description">Secure encrypted output. Without the correct key, this data is mathematically impossible to decrypt.</div>
+                        </div>
+                    </div>
+                `;
+
+                output.innerHTML = `<span class="success-message">✓ Encryption successful</span><br><br>${encrypted}`;
+            }, 600);
+        }
+
+        function decryptMessage() {
+            const key = document.getElementById('key').value;
+            const visualization = document.getElementById('visualization');
+            const output = document.getElementById('output');
+
+            if (!currentEncrypted) {
+                alert('Please encrypt a message first');
+                return;
+            }
+
+            if (!key) {
+                alert('Please enter an encryption key');
+                return;
+            }
+
+            visualization.innerHTML = '<div class="loading"><div class="spinner"></div> Decrypting message...</div>';
+            output.innerHTML = '<div class="loading"><div class="spinner"></div> Processing...</div>';
+
+            setTimeout(() => {
+                try {
+                    const decrypted = CryptoJS.AES.decrypt(currentEncrypted, key).toString(CryptoJS.enc.Utf8);
+
+                    if (!decrypted) {
+                        throw new Error('Decryption failed');
+                    }
+
+                    visualization.innerHTML = `
+                        <div class="process-step" style="animation-delay: 0s;">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-label">Encrypted Ciphertext</div>
+                                <div class="step-value">${currentEncrypted}</div>
+                                <div class="step-description">Encrypted input requiring decryption</div>
+                            </div>
+                        </div>
+
+                        <div class="arrow-connector">↓</div>
+
+                        <div class="process-step" style="animation-delay: 0.2s;">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-label">Secret Key Verification</div>
+                                <div class="step-value">${key}</div>
+                                <div class="step-description">Same key used for decryption</div>
+                            </div>
+                        </div>
+
+                        <div class="arrow-connector">↓</div>
+
+                        <div class="process-step" style="animation-delay: 0.4s;">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-label">AES Reverse Transformation (14 Rounds)</div>
+                                <div class="step-value">
+                                    <div class="aes-visual-demo">
+                                        <div class="operation-label">Encrypted State Matrix</div>
+                                        <div class="state-grid">
+                                            <div class="state-block" style="background: #10b981;">E9</div>
+                                            <div class="state-block" style="background: #10b981;">7A</div>
+                                            <div class="state-block" style="background: #10b981;">C4</div>
+                                            <div class="state-block" style="background: #10b981;">31</div>
+                                            <div class="state-block" style="background: #10b981;">F2</div>
+                                            <div class="state-block" style="background: #10b981;">8B</div>
+                                            <div class="state-block" style="background: #10b981;">D6</div>
+                                            <div class="state-block" style="background: #10b981;">5C</div>
+                                            <div class="state-block" style="background: #10b981;">03</div>
+                                            <div class="state-block" style="background: #10b981;">A1</div>
+                                            <div class="state-block" style="background: #10b981;">67</div>
+                                            <div class="state-block" style="background: #10b981;">BE</div>
+                                            <div class="state-block" style="background: #10b981;">49</div>
+                                            <div class="state-block" style="background: #10b981;">D5</div>
+                                            <div class="state-block" style="background: #10b981;">92</div>
+                                            <div class="state-block" style="background: #10b981;">7F</div>
+                                        </div>
+                                        <div class="operation-label">↓ Reverse transformation ↓</div>
+                                    </div>
+                                    
+                                    <div class="transformation-flow">
+                                        <div>
+                                            <div class="mini-state">
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                                <div class="mini-block" style="background: #10b981;"></div>
+                                            </div>
+                                            <div class="flow-label">AddRoundKey</div>
+                                        </div>
+                                        <div class="flow-arrow">→</div>
+                                        <div>
+                                            <div class="mini-state">
+                                                <div class="mini-block" style="background: #a78bfa;"></div>
+                                                <div class="mini-block" style="background: #f472b6;"></div>
+                                                <div class="mini-block" style="background: #fbbf24;"></div>
+                                                <div class="mini-block" style="background: #60a5fa;"></div>
+                                                <div class="mini-block" style="background: #c084fc;"></div>
+                                                <div class="mini-block" style="background: #fb7185;"></div>
+                                                <div class="mini-block" style="background: #fcd34d;"></div>
+                                                <div class="mini-block" style="background: #93c5fd;"></div>
+                                                <div class="mini-block" style="background: #d8b4fe;"></div>
+                                                <div class="mini-block" style="background: #fda4af;"></div>
+                                                <div class="mini-block" style="background: #fde68a;"></div>
+                                                <div class="mini-block" style="background: #bfdbfe;"></div>
+                                                <div class="mini-block" style="background: #e9d5ff;"></div>
+                                                <div class="mini-block" style="background: #fecdd3;"></div>
+                                                <div class="mini-block" style="background: #fef3c7;"></div>
+                                                <div class="mini-block" style="background: #dbeafe;"></div>
+                                            </div>
+                                            <div class="flow-label">InvMixColumns</div>
+                                        </div>
+                                        <div class="flow-arrow">→</div>
+                                        <div>
+                                            <div class="mini-state">
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #8b5cf6;"></div>
+                                                <div class="mini-block" style="background: #ec4899;"></div>
+                                                <div class="mini-block" style="background: #f59e0b;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #8b5cf6;"></div>
+                                                <div class="mini-block" style="background: #ec4899;"></div>
+                                                <div class="mini-block" style="background: #f59e0b;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #8b5cf6;"></div>
+                                                <div class="mini-block" style="background: #ec4899;"></div>
+                                                <div class="mini-block" style="background: #f59e0b;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #8b5cf6;"></div>
+                                                <div class="mini-block" style="background: #ec4899;"></div>
+                                                <div class="mini-block" style="background: #f59e0b;"></div>
+                                            </div>
+                                            <div class="flow-label">InvShiftRows</div>
+                                        </div>
+                                        <div class="flow-arrow">→</div>
+                                        <div>
+                                            <div class="mini-state">
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                                <div class="mini-block" style="background: #3b82f6;"></div>
+                                            </div>
+                                            <div class="flow-label">InvSubBytes</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 3px solid #10b981;">
+                                        <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.6;">
+                                            <strong style="color: #10b981;">AddRoundKey:</strong> XOR with round key (same as encryption - self-inverse!)<br>
+                                            <strong style="color: #10b981;">InvMixColumns:</strong> Inverse matrix multiplication<br>
+                                            <strong style="color: #10b981;">InvShiftRows:</strong> Shift rows RIGHT (opposite of encryption)<br>
+                                            <strong style="color: #10b981;">InvSubBytes:</strong> Reverse S-box lookup (inverse table)
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155; font-size: 0.875rem;">
+                                        <div class="round-item"><strong>Round 14 (First):</strong> AddRoundKey (Key 14) → InvShiftRows → InvSubBytes</div>
+                                        <div class="round-item"><strong>Rounds 13-1:</strong> All four inverse operations with round keys in reverse order</div>
+                                        <div class="round-item"><strong>Final:</strong> AddRoundKey (Key 0) to recover plaintext</div>
+                                    </div>
+                                </div>
+                                <div class="step-description">Uses the same 15 round keys but in REVERSE order (14→0). Inverse operations undo encryption.</div>
+                            </div>
+                        </div>
+
+                        <div class="arrow-connector">↓</div>
+
+                        <div class="process-step" style="animation-delay: 0.6s;">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <div class="step-label">Decrypted Plaintext</div>
+                                <div class="step-value">${decrypted}</div>
+                                <div class="step-description">Original message recovered! Each operation perfectly reversed with the correct key.</div>
+                            </div>
+                        </div>
+                    `;
+
+                    output.innerHTML = `<span class="success-message">✓ Decryption successful</span><br><br>${decrypted}`;
+                } catch (error) {
+                    visualization.innerHTML = `
+                        <div class="error-step">
+                            <div class="process-step">
+                                <div class="step-number">✕</div>
+                                <div class="step-content">
+                                    <div class="step-label">Decryption Failed</div>
+                                    <div class="step-value">Authentication error: The provided key does not match the encryption key</div>
+                                    <div class="step-description">Without the correct key, encrypted data cannot be decrypted. This demonstrates the security of symmetric encryption.</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    output.innerHTML = '<span class="error-message">✕ Decryption failed: Invalid key</span>';
+                }
+            }, 600);
+        }
+
+        function clearAll() {
+            document.getElementById('plaintext').value = '';
+            document.getElementById('key').value = '';
+            document.getElementById('visualization').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🔐</div>
+                    <p>Click "Encrypt Message" to see the encryption process</p>
+                </div>
+            `;
+            document.getElementById('output').innerHTML = 'Awaiting encryption or decryption...';
+            currentEncrypted = '';
+        }
+    </script>
+</body>
+</html>
