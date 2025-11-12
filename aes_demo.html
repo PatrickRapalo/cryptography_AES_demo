@@ -12,79 +12,93 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #0f172a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px;
             color: #e2e8f0;
             line-height: 1.6;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         h1 {
-            font-size: 2.75rem;
-            font-weight: 700;
-            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 12px;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
         }
 
         .subtitle {
             font-size: 1.125rem;
             color: #94a3b8;
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .card {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(226, 232, 240, 0.1);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 48px rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .card-title {
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 0.8125rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             color: #64748b;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         textarea,
         input[type="text"] {
             width: 100%;
             padding: 14px 16px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
             color: #e2e8f0;
             font-size: 15px;
             font-family: 'Monaco', 'Courier New', monospace;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
@@ -92,7 +106,8 @@
         input[type="text"]:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            background: rgba(15, 23, 42, 1);
         }
 
         textarea::placeholder,
@@ -108,107 +123,150 @@
         }
 
         button {
-            padding: 14px 24px;
+            padding: 16px 24px;
             font-size: 15px;
             font-weight: 600;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
         }
 
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
         }
 
         .btn-secondary {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
         }
 
         .btn-secondary:hover {
-            background: #059669;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
         }
 
         .btn-ghost {
-            background: transparent;
-            color: #94a3b8;
-            border: 1px solid #334155;
+            background: rgba(51, 65, 85, 0.4);
+            color: #cbd5e1;
+            border: 1.5px solid rgba(148, 163, 184, 0.2);
         }
 
         .btn-ghost:hover {
-            background: #1e293b;
+            background: rgba(51, 65, 85, 0.6);
+            border-color: rgba(148, 163, 184, 0.4);
             color: #e2e8f0;
         }
 
         .info-panel {
-            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
-            border-radius: 12px;
-            padding: 24px;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(49, 46, 129, 0.3) 100%);
+            border-radius: 16px;
+            padding: 28px;
             margin-bottom: 30px;
             border-left: 4px solid #3b82f6;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .info-panel-title {
-            font-weight: 600;
-            font-size: 0.9375rem;
+            font-weight: 700;
+            font-size: 1.125rem;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .info-panel-text {
             color: #cbd5e1;
             font-size: 0.9375rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .key-concepts {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
             margin-bottom: 30px;
         }
 
         .concept-card {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(226, 232, 240, 0.1);
-            transition: all 0.3s ease;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .concept-card:hover {
-            transform: translateY(-2px);
-            border-color: #3b82f6;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 48px rgba(59, 130, 246, 0.2);
+        }
+
+        .concept-card:hover::before {
+            transform: scaleX(1);
         }
 
         .concept-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
         }
 
         .concept-title {
             font-weight: 700;
-            font-size: 0.9375rem;
-            color: #3b82f6;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 10px;
         }
 
         .concept-text {
             font-size: 0.875rem;
             color: #94a3b8;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .factorization-demo {
@@ -536,9 +594,43 @@
             font-family: 'Monaco', 'Courier New', monospace;
             color: #cbd5e1;
             font-size: 0.9375rem;
-            padding: 8px 12px;
+            padding: 12px;
             background: rgba(59, 130, 246, 0.1);
-            border-radius: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .formula-line {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #3b82f6;
+        }
+
+        .formula-explanation {
+            font-size: 0.8125rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .output-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .output-note {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-style: italic;
         }
 
         .encryption-arrow {
@@ -617,26 +709,28 @@
         }
 
         .visualization {
-            background: #1e293b;
-            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
             padding: 40px;
             min-height: 300px;
-            border: 1px solid rgba(226, 232, 240, 0.1);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .process-step {
             display: grid;
-            grid-template-columns: 60px 1fr;
-            gap: 20px;
-            margin: 25px 0;
+            grid-template-columns: 70px 1fr;
+            gap: 24px;
+            margin: 30px 0;
             opacity: 0;
-            animation: slideIn 0.5s ease forwards;
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-20px);
+                transform: translateX(-30px);
             }
             to {
                 opacity: 1;
@@ -645,94 +739,100 @@
         }
 
         .step-number {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
+            font-weight: 800;
+            font-size: 1.5rem;
             color: white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
         }
 
         .step-content {
-            padding-top: 4px;
+            padding-top: 6px;
         }
 
         .step-label {
             font-size: 0.8125rem;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         .step-value {
-            background: #0f172a;
-            padding: 14px 16px;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 20px;
+            border-radius: 12px;
             font-family: 'Monaco', 'Courier New', monospace;
             font-size: 14px;
             color: #cbd5e1;
             word-break: break-all;
-            border: 1px solid #334155;
-            line-height: 1.6;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            line-height: 1.8;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .step-description {
             color: #94a3b8;
             font-size: 0.9375rem;
-            margin-top: 8px;
+            margin-top: 12px;
             font-style: italic;
         }
 
         .arrow-connector {
             text-align: center;
-            margin: 15px 0;
+            margin: 20px 0;
             color: #3b82f6;
-            font-size: 24px;
+            font-size: 28px;
         }
 
         .output-card {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 30px;
-            border: 1px solid rgba(226, 232, 240, 0.1);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
             margin-top: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .output-label {
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 0.8125rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             color: #64748b;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .output-content {
-            background: #0f172a;
-            padding: 20px;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 24px;
+            border-radius: 12px;
             font-family: 'Monaco', 'Courier New', monospace;
             font-size: 15px;
             color: #3b82f6;
             word-break: break-all;
             min-height: 100px;
-            border: 1px solid #334155;
+            border: 1px solid rgba(148, 163, 184, 0.2);
             line-height: 1.8;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .success-message {
             color: #10b981;
+            font-weight: 600;
         }
 
         .error-message {
             color: #ef4444;
+            font-weight: 600;
         }
 
         .loading {
@@ -745,9 +845,9 @@
         }
 
         .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(59, 130, 246, 0.2);
+            width: 32px;
+            height: 32px;
+            border: 4px solid rgba(59, 130, 246, 0.2);
             border-top-color: #3b82f6;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -764,16 +864,16 @@
         }
 
         .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+            font-size: 56px;
+            margin-bottom: 20px;
+            opacity: 0.6;
         }
 
         .error-step {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid #ef4444;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 24px;
+            border-radius: 12px;
         }
 
         .error-step .step-label {
@@ -997,23 +1097,23 @@
             <div class="key-concepts">
                 <div class="concept-card">
                     <div class="concept-icon">🔓</div>
-                    <div class="concept-title">Public Key</div>
-                    <div class="concept-text">Shared openly. Anyone can encrypt messages to you using your public key.</div>
+                    <div class="concept-title">Public Key (n, e)</div>
+                    <div class="concept-text">Contains modulus 'n' and exponent 'e' (usually 65537). Shared openly for encryption.</div>
                 </div>
                 <div class="concept-card">
                     <div class="concept-icon">🔐</div>
-                    <div class="concept-title">Private Key</div>
-                    <div class="concept-text">Kept secret. Only you can decrypt messages encrypted with your public key.</div>
+                    <div class="concept-title">Private Key (n, d)</div>
+                    <div class="concept-text">Contains same 'n' but secret exponent 'd'. Only you have this for decryption.</div>
                 </div>
                 <div class="concept-card">
                     <div class="concept-icon">🧮</div>
-                    <div class="concept-title">Math Foundation</div>
-                    <div class="concept-text">Based on prime factorization. Easy to multiply primes, extremely hard to factor the result.</div>
+                    <div class="concept-title">The Exponents</div>
+                    <div class="concept-text">e = 65537 (public, encrypts). d = secret number (private, decrypts). They're mathematically related.</div>
                 </div>
                 <div class="concept-card">
                     <div class="concept-icon">🐌</div>
                     <div class="concept-title">Trade-off</div>
-                    <div class="concept-text">More secure key exchange, but slower than symmetric encryption (1000x slower!).</div>
+                    <div class="concept-text">Huge size expansion + slow speed. Real systems use RSA only for key exchange, not data.</div>
                 </div>
             </div>
 
@@ -1260,37 +1360,40 @@
                     <div class="process-step" style="animation-delay: 0.45s;">
                         <div class="step-number">4</div>
                         <div class="step-content">
-                            <div class="step-label">RSA Encryption (Each Character)</div>
+                            <div class="step-label">RSA Encryption Process</div>
                             <div class="step-value">
-                                <div class="encryption-breakdown">
-                                    ${plaintext.split('').map((char, idx) => {
-                                        const ascii = char.charCodeAt(0);
-                                        return `
-                                        <div class="encryption-step" style="animation-delay: ${idx * 0.1}s;">
-                                            <div class="encryption-input">
-                                                <span class="char-label">'${char}'</span>
-                                                <span class="ascii-label">(${ascii})</span>
-                                            </div>
-                                            <div class="encryption-formula">
-                                                ${ascii}<sup>e</sup> mod n
-                                            </div>
-                                            <div class="encryption-arrow">→</div>
-                                            <div class="encryption-output">Encrypted byte</div>
+                                <div style="padding: 20px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                                    <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.8;">
+                                        <strong style="color: #3b82f6; font-size: 1rem;">For each character:</strong><br>
+                                        <div style="margin: 12px 0; font-family: 'Monaco', monospace; font-size: 0.9375rem;">
+                                            ASCII<sup>e</sup> mod n = Encrypted Number
                                         </div>
-                                        `;
-                                    }).join('')}
-                                </div>
-                                <div style="margin-top: 20px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
-                                    <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.6;">
-                                        <strong style="color: #3b82f6;">How it works:</strong><br>
-                                        • Each ASCII number is raised to power e (public exponent)<br>
-                                        • Result is wrapped using mod n (modulo operation)<br>
-                                        • Formula: Ciphertext = ASCII<sup>e</sup> mod n<br>
-                                        • Each character becomes a different encrypted number
+                                        <div style="background: rgba(15, 23, 42, 0.8); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                                            <strong style="color: #10b981;">What is 'e'? (Public Exponent)</strong><br>
+                                            <span style="color: #94a3b8; font-size: 0.8125rem;">
+                                                • <strong>e = 65537</strong> (standard value used everywhere)<br>
+                                                • Part of the public key (n, e)<br>
+                                                • Chosen to be fast to compute and secure<br>
+                                                • Everyone uses the same e value (it's public!)
+                                            </span>
+                                        </div>
+                                        <strong style="color: #3b82f6;">📐 With 1024-bit RSA:</strong><br>
+                                        <code style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 4px; display: block; margin: 8px 0; color: #10b981; font-size: 0.75rem;">
+                                            'H' (72) → 72<sup>65537</sup> mod n → [309-digit number] → 128 bytes
+                                        </code>
+                                        <div style="background: rgba(15, 23, 42, 0.9); padding: 12px; border-radius: 6px; margin: 8px 0; font-family: 'Monaco', monospace; font-size: 0.65rem; color: #ef4444; word-break: break-all; line-height: 1.6;">
+                                            Example: 8947283947192837465029384756102938475610293847561029384756102938475610293847561029384756102938475610293847561029384756102938475610293847561029384756102938475610293847561029384756102938475610293847561029384756102938475610293847561029384756...
+                                        </div>
+                                        <div style="margin-top: 12px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 6px; border-left: 3px solid #ef4444;">
+                                            <span style="color: #cbd5e1; font-size: 0.8125rem;">
+                                                ⚠️ Each character → 128 bytes encrypted!<br>
+                                                💡 That's why "${plaintext}" → ${Math.round(plaintext.length * 128 * 4/3)} Base64 characters
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="step-description">Each character is encrypted individually using modular exponentiation</div>
+                            <div class="step-description">Each ASCII code encrypted using public exponent e=65537</div>
                         </div>
                     </div>
 
@@ -1299,9 +1402,30 @@
                     <div class="process-step" style="animation-delay: 0.6s;">
                         <div class="step-number">5</div>
                         <div class="step-content">
-                            <div class="step-label">Encrypted Ciphertext</div>
-                            <div class="step-value">${encrypted}</div>
-                            <div class="step-description">Only the private key holder can decrypt this! Transmitted as Base64-encoded bytes.</div>
+                            <div class="step-label">Final Ciphertext (Base64 Encoded)</div>
+                            <div class="step-value" style="word-break: break-all; font-size: 0.875rem; background: rgba(15, 23, 42, 0.6); padding: 16px; border-radius: 8px; border: 1px solid #334155;">${encrypted}</div>
+                            <div style="margin-top: 15px; padding: 12px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                                <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.6;">
+                                    <strong style="color: #ef4444;">📊 Size Impact:</strong>
+                                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; margin-top: 8px; font-family: 'Monaco', monospace; font-size: 0.8125rem;">
+                                        <span style="color: #3b82f6;">Original:</span>
+                                        <span>"${plaintext}" = ${plaintext.length} bytes</span>
+                                        <span style="color: #ef4444;">Encrypted:</span>
+                                        <span>${encrypted.length} chars ≈ ${Math.round(encrypted.length * 0.75)} bytes</span>
+                                        <span style="color: #f59e0b;">Expansion:</span>
+                                        <span><strong>${Math.round((encrypted.length * 0.75) / plaintext.length)}x larger!</strong></span>
+                                    </div>
+                                    <div style="margin-top: 12px; padding: 10px; background: rgba(15, 23, 42, 0.8); border-radius: 6px; border-left: 3px solid #10b981;">
+                                        <span style="color: #cbd5e1; font-size: 0.8125rem;">
+                                            💡 <strong>Real systems use hybrid encryption:</strong><br>
+                                            RSA encrypts only a tiny AES key (32 bytes → 128 bytes)<br>
+                                            AES encrypts the actual message (fast, stays small)<br>
+                                            Result: Secure + Efficient! This is how HTTPS works.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-description">Ready to transmit! Only the private key can decrypt this.</div>
                         </div>
                     </div>
                 `;
@@ -1369,9 +1493,14 @@
                                         <div class="encryption-step" style="animation-delay: ${idx * 0.1}s;">
                                             <div class="encryption-input">
                                                 <span class="encrypted-label">Encrypted byte</span>
+                                                <span class="output-note">(Large number)</span>
                                             </div>
                                             <div class="encryption-formula">
-                                                Byte<sup>d</sup> mod n
+                                                <div class="formula-line">Byte<sup>d</sup> mod n</div>
+                                                <div class="formula-explanation">
+                                                    Encrypted byte to power d,<br>
+                                                    then mod n = <strong style="color: #10b981;">${ascii}</strong>
+                                                </div>
                                             </div>
                                             <div class="encryption-arrow">→</div>
                                             <div class="encryption-output">
@@ -1384,11 +1513,20 @@
                                 </div>
                                 <div style="margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 3px solid #10b981;">
                                     <div style="font-size: 0.875rem; color: #cbd5e1; line-height: 1.6;">
-                                        <strong style="color: #10b981;">Decryption Process:</strong><br>
-                                        • Each encrypted byte is raised to power d (private exponent)<br>
-                                        • Result wrapped using mod n gives back ASCII number<br>
-                                        • Formula: ASCII = Ciphertext<sup>d</sup> mod n<br>
-                                        • ASCII numbers convert back to original characters
+                                        <strong style="color: #10b981;">📐 Real 1024-bit RSA Decryption:</strong><br>
+                                        With the private key, we decrypt the huge encrypted number:<br>
+                                        <div style="background: rgba(15, 23, 42, 0.9); padding: 12px; border-radius: 6px; margin: 8px 0; font-family: 'Monaco', monospace; font-size: 0.7rem; color: #ef4444; word-break: break-all; line-height: 1.8;">
+                                            [309-digit encrypted number]<sup>d</sup> mod n<br>
+                                            <span style="color: #64748b;">↓</span><br>
+                                            <span style="color: #10b981;">= 72 ('H')</span>
+                                        </div>
+                                        <code style="background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 4px; display: block; margin: 8px 0; color: #10b981; font-size: 0.75rem;">
+                                            The 309-digit number raised to private exponent d, mod n = <strong>72</strong>
+                                        </code>
+                                        <span style="color: #94a3b8;">✨ The private exponent d mathematically reverses what e did - that's the RSA magic!</span><br>
+                                        <span style="color: #64748b; font-size: 0.8125rem; margin-top: 8px; display: block;">
+                                            🔐 Without the private key, you can't compute this - you'd need to factor n (impossible with 309-digit primes!)
+                                        </span>
                                     </div>
                                 </div>
                             </div>
